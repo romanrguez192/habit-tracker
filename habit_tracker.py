@@ -1,4 +1,5 @@
 from messages import messages
+import db_connection
 
 # Selección del idioma de la aplicación
 def select_language():
