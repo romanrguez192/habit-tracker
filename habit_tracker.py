@@ -27,22 +27,26 @@ def select_language():
     # En ambos casos devuelve el idioma
     return lang
 
-# Menú principal
-def main_menu():
+def menu(options, functions):
     option = ""
-    while option != "3":
+    while option != str(len(options)):
         option = ""
-        while option not in map(str, range(1, 3 + 1)):
+        while option not in map(str, range(1, len(options) + 1)):
             print()
-            print("1.", messages["current_cycle"])
-            print("2.", messages["past_cycles"])
-            print("3.", messages["exit"])
+            for n, opt in enumerate(options):
+                print(f"{n + 1}. {messages[opt]}")
+            
             option = input(">>> ")
 
-        if option == "1":
-            current_cycle_menu()
-        elif option == "2":
-            past_cycles_menu()
+        for n, function in enumerate(functions):
+            if option == str(n + 1):
+                function()
+                break
+
+
+# Menú principal
+def main_menu():
+    menu(("current_cycle", "past_cycles", "exit"), (current_cycle_menu, past_cycles_menu))
 
 
 # Menú de opciones del ciclo actual
