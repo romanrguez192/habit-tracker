@@ -62,18 +62,32 @@ def current_cycle_menu():
 
 # Creación de nuevo ciclo
 def new_cycle():
-    initial_date = db.get_initial_date()
-    d, m, y = initial_date.day, initial_date.month, initial_date.year
+    cycle_date = db.get_cycle_date()
+    d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
     print()
     print(messages["new_start_date"](d, m, y))
     print()
     print(messages["add_new_habit"] + ":")
-    name = input("-", messages["habit_name"])
-    action = input("-", messages["habit_action"])
-    measurement = input("-", messages["habit_measurement"])
-    days = input("-", messages["habit_days"])
 
+    habits = []
+    ans = ""
+    while ans != messages["no"]:
+        name = input("- " + messages["habit_name"] + ": ")
+        action = input("- " + messages["habit_action"] + ": ")
+        measurement = input("- " + messages["habit_measurement"] + ": ")
+        days = input("- " + messages["habit_days"] + ": ")
+        print()
 
+        habits.append((name, action, measurement, days, cycle_date))
+
+        ans = ""
+        while ans not in (messages["yes"], messages["no"]):
+            print(f"{messages['ask_new_habit']} ({messages['yes']}/{messages['no']})")
+            ans = input(">>> ").upper()
+        print()
+    
+    db.add_new_habit(habits)
+    print(messages["cycle_created"])
 
 
 # Menú de ciclos anteriores
