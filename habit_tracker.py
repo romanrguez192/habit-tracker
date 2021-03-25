@@ -1,5 +1,5 @@
 from messages import messages
-import db_connection
+import db_connection as db
 
 # Selección del idioma de la aplicación
 def select_language():
@@ -57,7 +57,18 @@ def current_cycle_menu():
             option = input(">>> ")
             
         if  option == "1":
-            print("XD")
+            new_cycle_menu()
+
+
+#Menú de nuevo ciclo
+def new_cycle_menu():
+    if db.current_cycle_exists():
+        print("Hay")
+    else:
+        print("NO hay")
+
+
+# Menú cuando no existe ciclo actual
 
 
 # Menú de ciclos anteriores
@@ -82,3 +93,4 @@ messages = messages[lang]
 print(messages["welcome"])
 # Menú principal
 main_menu()
+db.close_connection()

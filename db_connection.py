@@ -1,5 +1,7 @@
 import sqlite3
 from sqlite3 import Error
+from datetime import date
+import sys
 
 try:
     # Intenta hacer la conexión
@@ -14,12 +16,29 @@ try:
 
     con.commit()
 
+    def close_connection():
+        con.close()
+
+
+    def get_initial_date():
+        current_date = date.today()
+        initial_date = date(current_date.year, current_date.month, 1 if current_date.day < 16 else 16)
+        return initial_date
+        
+
+    def current_cycle_exists():
+        initial_date = get_initial_date()
+        cur.execute("SELECT * FROM cycles WHERE initial_date = ?", (initial_date,))
+        cycle = cur.fetchone()
+
+        return cycle != None
+
+
 except Error:
     # En caso de error
     print(Error)
-
-finally:
-    # Cierra la conexión
     con.close()
+    sys.exit()
+
 
 
