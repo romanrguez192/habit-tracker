@@ -1,4 +1,4 @@
-from messages import messages
+from languages import messages
 import db_connection as db
 
 # Selección del idioma de la aplicación
@@ -27,6 +27,8 @@ def select_language():
     # En ambos casos devuelve el idioma
     return lang
 
+
+# Generalización de funciones de menús
 def menu(options, functions):
     option = ""
     while option != str(len(options)):
@@ -50,29 +52,28 @@ def main_menu():
 
 
 # Menú de opciones del ciclo actual
-def current_cycle_menu(): 
-    option = ""
-    while option != "2":
-        option = ""
-        while option not in map(str, range(1, 2 + 1)):
-            print()
-            print("1.", messages["new_cycle"])
-            print("2.", messages["back"])
-            option = input(">>> ")
-            
-        if  option == "1":
-            new_cycle_menu()
+def current_cycle_menu():
 
-
-#Menú de nuevo ciclo
-def new_cycle_menu():
     if db.current_cycle_exists():
-        print("Hay")
+        pass
     else:
-        print("NO hay")
+        menu(("new_cycle", "back"), (new_cycle,))
 
 
-# Menú cuando no existe ciclo actual
+# Creación de nuevo ciclo
+def new_cycle():
+    initial_date = db.get_initial_date()
+    d, m, y = initial_date.day, initial_date.month, initial_date.year
+    print()
+    print(messages["new_start_date"](d, m, y))
+    print()
+    print(messages["add_new_habit"] + ":")
+    name = input("-", messages["habit_name"])
+    action = input("-", messages["habit_action"])
+    measurement = input("-", messages["habit_measurement"])
+    days = input("-", messages["habit_days"])
+
+
 
 
 # Menú de ciclos anteriores

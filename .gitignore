@@ -125,4 +125,6 @@ dmypy.json
 
 # lang
 lang.txt
+
+# database
 database.db
