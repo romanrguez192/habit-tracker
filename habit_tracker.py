@@ -53,11 +53,11 @@ def main_menu():
 
 # Menú de opciones del ciclo actual
 def current_cycle_menu():
-
-    if db.current_cycle_exists():
-        pass
-    else:
-        menu(("new_cycle", "back"), (new_cycle,))
+    while not db.current_cycle_exists():
+        new_cycle()
+    
+    print()
+    print("Equis fecha xd")
 
 
 # Creación de nuevo ciclo
