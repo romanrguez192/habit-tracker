@@ -37,6 +37,12 @@ try:
         cur.executemany("INSERT INTO habits(name, action, measurement, days, cycle_date) VALUES(?, ?, ?, ?, ?)", habits)
         con.commit()
 
+    def get_habits(cycle_date):
+
+        
+
+        return [{"name": "Pixel art", "action": "Aprender", "measurement": "20 min", "days": "D"}]
+
 
 except Error:
     # En caso de error

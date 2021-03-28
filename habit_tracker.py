@@ -1,5 +1,6 @@
-from languages import messages
+from languages import messages, dates
 import db_connection as db
+from calendar import monthrange
 
 # Selección del idioma de la aplicación
 def select_language():
@@ -56,8 +57,32 @@ def current_cycle_menu():
     while not db.current_cycle_exists():
         new_cycle()
     
+    cycle_date = db.get_cycle_date()
+    d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
+
     print()
-    print("Equis fecha xd")
+    print(messages["heading_date"](d, m, y))
+
+    habits = db.get_habits(cycle_date)
+    month_days = monthrange(y, m)
+
+    first_day = d
+    last_day = 15 if first_day == 1 else month_days[1]
+
+    num_days = last_day - first_day + 1
+    first_day_week = month_days[0] if first_day == 1 else month_days[0] + 15
+
+    for i, habit in enumerate(habits):
+        print()
+        print(f"{i + 1}) {habit['name']}: {habit['action']}. {habit['measurement']}. {habit['days']}")
+        for j in range(num_days):
+            print(dates[lang]["days"][(first_day_week + j) % 7], end=" ")
+        print()
+        for j in range(first_day, last_day + 1):
+            print(("0" if j < 10 else "") + str(j), end=" ")
+        
+    
+    print()
 
 
 # Creación de nuevo ciclo

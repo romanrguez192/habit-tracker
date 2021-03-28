@@ -15,13 +15,13 @@ dates = {
             "December"
         ),
         "days": (
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa",
+            "Su"
         )
     },
     "ES": {
@@ -40,13 +40,13 @@ dates = {
             "Diciembre"
         ),
         "days": (
-            "Lunes",
-            "Martes",
-            "Miércoles",
-            "Jueves",
-            "Viernes",
-            "Sábado",
-            "Domingo"
+            "Lu",
+            "Ma",
+            "Mi",
+            "Ju",
+            "Vi",
+            "Sa",
+            "Do"
         )
     },
 }
@@ -69,6 +69,7 @@ messages = {
         "yes": "Y",
         "no": "N",
         "cycle_created": "Cycle successfully created",
+        "heading_date": lambda d, m, y: f"{dates['EN']['months'][m-1]} {d}, {y}",
     },
     "ES": {
         "choose": "¿Qué idioma hablas? (ES)",
@@ -87,5 +88,7 @@ messages = {
         "yes": "S",
         "no": "N",  
         "cycle_created": "Ciclo creado exitosamente",
+        "heading_date": lambda d, m, y: f"{d} de {dates['ES']['months'][m-1]} de {y}",
+
     }
 }
