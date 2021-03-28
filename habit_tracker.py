@@ -1,6 +1,7 @@
 from languages import messages, dates
 import db_connection as db
 from calendar import monthrange
+from utils import get_cycle_date
 
 # Selección del idioma de la aplicación
 def select_language():
@@ -57,7 +58,7 @@ def current_cycle_menu():
     while not db.current_cycle_exists():
         new_cycle()
     
-    cycle_date = db.get_cycle_date()
+    cycle_date = get_cycle_date()
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
 
     print()
@@ -87,7 +88,7 @@ def current_cycle_menu():
 
 # Creación de nuevo ciclo
 def new_cycle():
-    cycle_date = db.get_cycle_date()
+    cycle_date = get_cycle_date()
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
     print()
     print(messages["new_start_date"](d, m, y))

@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from datetime import date
+from utils import get_cycle_date
 import sys
 
 try:
@@ -17,12 +17,6 @@ try:
 
     def close_connection():
         con.close()
-
-
-    def get_cycle_date():
-        current_date = date.today()
-        cycle_date = date(current_date.year, current_date.month, 1 if current_date.day < 16 else 16)
-        return cycle_date
         
 
     def current_cycle_exists():
@@ -39,7 +33,7 @@ try:
 
     def get_habits(cycle_date):
 
-        
+
 
         return [{"name": "Pixel art", "action": "Aprender", "measurement": "20 min", "days": "D"}]
 
