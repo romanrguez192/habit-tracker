@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from utils import get_cycle_date
+import utils
 import sys
 
 try:
@@ -20,7 +20,7 @@ try:
         
 
     def current_cycle_exists():
-        cycle_date = get_cycle_date()
+        cycle_date = utils.get_cycle_date()
         cur.execute("SELECT * FROM habits WHERE cycle_date = ?", (cycle_date,))
         cycle = cur.fetchone()
 

@@ -1,7 +1,7 @@
 from languages import messages, dates
 import db_connection as db
 from calendar import monthrange
-from utils import get_cycle_date
+import utils
 
 # Selección del idioma de la aplicación
 def select_language():
@@ -58,7 +58,7 @@ def current_cycle_menu():
     while not db.current_cycle_exists():
         new_cycle()
     
-    cycle_date = get_cycle_date()
+    cycle_date = utils.get_cycle_date()
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
 
     print()
@@ -88,7 +88,7 @@ def current_cycle_menu():
 
 # Creación de nuevo ciclo
 def new_cycle():
-    cycle_date = get_cycle_date()
+    cycle_date = utils.get_cycle_date()
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
     print()
     print(messages["new_start_date"](d, m, y))
@@ -101,7 +101,11 @@ def new_cycle():
         name = input("- " + messages["habit_name"] + ": ")
         action = input("- " + messages["habit_action"] + ": ")
         measurement = input("- " + messages["habit_measurement"] + ": ")
-        days = input("- " + messages["habit_days"] + ": ")
+        
+        days = ""
+        while not utils.valid_habit_days(days, lang):
+            days = input("- " + messages["habit_days"] + ": ")
+        days = utils.get_list_days(days)
         print()
 
         habits.append((name, action, measurement, days, cycle_date))

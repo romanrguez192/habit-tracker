@@ -22,7 +22,8 @@ dates = {
             "Fr",
             "Sa",
             "Su"
-        )
+        ),
+        "daily": "d"
     },
     "ES": {
         "months": (
@@ -47,7 +48,8 @@ dates = {
             "Vi",
             "Sa",
             "Do"
-        )
+        ),
+        "daily": "d"
     },
 }
 
