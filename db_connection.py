@@ -33,9 +33,39 @@ try:
 
     def get_habits(cycle_date):
 
+        habits = []
+        cur.execute("""
+            SELECT h.habit_id, h.name, h.action, h.measurement, h.days, t.day, t.status
+            FROM habits AS h
+            LEFT JOIN tracking AS t
+            ON h.habit_id = t.habit_id
+            WHERE cycle_date = ?
+            ORDER BY h.habit_id, t.day;
+        """, (cycle_date,))
+        
+        habits_list = cur.fetchall()
 
+        habit = {}
+        habit["name"] = habits_list[0][1]
+        habit["action"] = habits_list[0][2]
+        habit["measurement"] = habits_list[0][3]
+        habit["days"] = habits_list[0][4]
+        habit["tracking"] = {habits_list[0][5]: habits_list[0][6]}
+        habits.append(habit)
 
-        return [{"name": "Pixel art", "action": "Aprender", "measurement": "20 min", "days": "D"}]
+        for i in range(1, len(habits_list)):
+            if habits_list[i][0] != habits_list[i - 1][0]:
+                habit = {}
+                habit["name"] = habits_list[i][1]
+                habit["action"] = habits_list[i][2]
+                habit["measurement"] = habits_list[i][3]
+                habit["days"] = habits_list[i][4]
+                habit["tracking"] = {habits_list[i][5]: habits_list[i][6]}
+                habits.append(habit)
+            else:
+                habit["tracking"][habits_list[i][5]] = habits_list[i][6]
+
+        return habits
 
 
 except Error:

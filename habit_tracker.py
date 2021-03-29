@@ -75,15 +75,18 @@ def current_cycle_menu():
 
     for i, habit in enumerate(habits):
         print()
+        habit["days"] = " ".join(map(lambda d: dates[lang]["days"][int(d)] , habit["days"].split()))
         print(f"{i + 1}) {habit['name']}: {habit['action']}. {habit['measurement']}. {habit['days']}")
         for j in range(num_days):
             print(dates[lang]["days"][(first_day_week + j) % 7], end=" ")
         print()
         for j in range(first_day, last_day + 1):
             print(("0" if j < 10 else "") + str(j), end=" ")
+        print()
+        for j in range()
         
     
-    print()
+    # A
 
 
 # Creación de nuevo ciclo
@@ -105,7 +108,7 @@ def new_cycle():
         days = ""
         while not utils.valid_habit_days(days, lang):
             days = input("- " + messages["habit_days"] + ": ")
-        days = utils.get_list_days(days)
+        days = utils.get_list_days(days, lang)
         print()
 
         habits.append((name, action, measurement, days, cycle_date))
