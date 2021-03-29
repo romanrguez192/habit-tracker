@@ -75,15 +75,24 @@ def current_cycle_menu():
 
     for i, habit in enumerate(habits):
         print()
-        habit["days"] = " ".join(map(lambda d: dates[lang]["days"][int(d)] , habit["days"].split()))
-        print(f"{i + 1}) {habit['name']}: {habit['action']}. {habit['measurement']}. {habit['days']}")
+        habit["days"] = list(map(int , habit["days"].split()))
+        habit["days_str"] = " ".join(map(lambda d: dates[lang]["days"][d] , habit["days"]))
+        print(f"{i + 1}) {habit['name']}: {habit['action']}. {habit['measurement']}. {habit['days_str']}")
         for j in range(num_days):
             print(dates[lang]["days"][(first_day_week + j) % 7], end=" ")
         print()
         for j in range(first_day, last_day + 1):
             print(("0" if j < 10 else "") + str(j), end=" ")
         print()
-        for j in range()
+        for j, k in zip(range(num_days), range(first_day, last_day + 1)):
+            if (first_day_week + j) % 7 in habit["days"]:
+                if k in habit["tracking"]:
+                    print(habit["tracking"][k] * 2, end=" ")
+                else:
+                    print("__", end=" ")
+            else:
+                print("   ", end="")
+        print()
         
     
     # A
