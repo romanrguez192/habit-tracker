@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 import utils
 import sys
+from languages import dates
 
 try:
     # Intenta hacer la conexión
@@ -31,7 +32,7 @@ try:
         cur.executemany("INSERT INTO habits(name, action, measurement, days, cycle_date) VALUES(?, ?, ?, ?, ?)", habits)
         con.commit()
 
-    def get_habits(cycle_date):
+    def get_habits(cycle_date, lang):
 
         habits = []
         cur.execute("""
@@ -46,20 +47,26 @@ try:
         habits_list = cur.fetchall()
 
         habit = {}
+        habit["id"] = habits_list[0][0]
         habit["name"] = habits_list[0][1]
         habit["action"] = habits_list[0][2]
         habit["measurement"] = habits_list[0][3]
         habit["days"] = habits_list[0][4]
+        habit["days"] = list(map(int , habit["days"].split()))
+        habit["days_str"] = " ".join(map(lambda d: dates[lang]["days"][d] , habit["days"]))
         habit["tracking"] = {habits_list[0][5]: habits_list[0][6]}
         habits.append(habit)
 
         for i in range(1, len(habits_list)):
             if habits_list[i][0] != habits_list[i - 1][0]:
                 habit = {}
+                habit["id"] = habits_list[0][0]
                 habit["name"] = habits_list[i][1]
                 habit["action"] = habits_list[i][2]
                 habit["measurement"] = habits_list[i][3]
                 habit["days"] = habits_list[i][4]
+                habit["days"] = list(map(int , habit["days"].split()))
+                habit["days_str"] = " ".join(map(lambda d: dates[lang]["days"][d] , habit["days"]))
                 habit["tracking"] = {habits_list[i][5]: habits_list[i][6]}
                 habits.append(habit)
             else:

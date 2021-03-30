@@ -72,6 +72,13 @@ messages = {
         "no": "N",
         "cycle_created": "Cycle successfully created",
         "heading_date": lambda d, m, y: f"{dates['EN']['months'][m-1]} {d}, {y}",
+        "mark_habits": "Mark habits",
+        "setback_notes": "Setback notes",
+        "cycle_review": "Cycle review",
+        "habit_number": "Habit number",
+        "day_mark": "Day to mark",
+        "symbol": "Symbol",
+        "marked": "Habit successfully marked",
     },
     "ES": {
         "choose": "¿Qué idioma hablas? (ES)",
@@ -91,6 +98,12 @@ messages = {
         "no": "N",  
         "cycle_created": "Ciclo creado exitosamente",
         "heading_date": lambda d, m, y: f"{d} de {dates['ES']['months'][m-1]} de {y}",
-
+        "mark_habits": "Marcar hábitos",
+        "setback_notes": "Notas de retrasos",
+        "cycle_review": "Revisión del ciclo",
+        "habit_number": "Número del hábito",
+        "day_mark": "Day a marcar",
+        "symbol": "Símbolo",
+        "marked": "Hábito marcado exitosamente",
     }
 }

@@ -64,7 +64,7 @@ def current_cycle_menu():
     print()
     print(messages["heading_date"](d, m, y))
 
-    habits = db.get_habits(cycle_date)
+    habits = db.get_habits(cycle_date, lang)
     month_days = monthrange(y, m)
 
     first_day = d
@@ -75,8 +75,6 @@ def current_cycle_menu():
 
     for i, habit in enumerate(habits):
         print()
-        habit["days"] = list(map(int , habit["days"].split()))
-        habit["days_str"] = " ".join(map(lambda d: dates[lang]["days"][d] , habit["days"]))
         print(f"{i + 1}) {habit['name']}: {habit['action']}. {habit['measurement']}. {habit['days_str']}")
         for j in range(num_days):
             print(dates[lang]["days"][(first_day_week + j) % 7], end=" ")
@@ -94,8 +92,47 @@ def current_cycle_menu():
                 print("   ", end="")
         print()
         
-    
-    # A
+    menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, None, None))
+
+
+# Menú para marcar el seguimiento de los hábitos
+def mark_habits():
+    print()
+    cycle_date = utils.get_cycle_date()
+    d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
+
+    month_days = monthrange(y, m)
+    first_day = d
+    last_day = 15 if first_day == 1 else month_days[1]
+    first_day_week = month_days[0] if first_day == 1 else (month_days[0] + 15) % 7
+    num_days = last_day - first_day + 1
+
+    habits = db.get_habits(cycle_date, lang)
+
+    number = ""
+    while number not in map(str, range(1, len(habits) + 1)) :
+        number = input("- " + messages["habit_number"] + ": ")
+    number = int(number)
+
+    week_days = habits[number - 1]["days"]
+
+    possible_days = [i + first_day for i in range(num_days) if (first_day_week + i) % 7 in week_days]
+
+    day = ""
+    while day not in map(str, possible_days):
+        day = input("- " + messages["day_mark"] + ": ")
+    day = int(day)
+
+    symbol = ""
+    while symbol not in ("+", "-", "*"):
+        symbol = input("- " + messages["symbol"] + ": ")
+
+    habit_id = habits[number - 1]["id"]
+
+    # db.mark_habit(habit_id, day, symbol)
+    print()
+    print(messages["marked"])
+
 
 
 # Creación de nuevo ciclo
