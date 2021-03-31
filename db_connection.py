@@ -79,6 +79,25 @@ try:
         cur.execute("INSERT INTO tracking(habit_id, day, status) VALUES(?, ?, ?)", (habit_id, day, status))
         con.commit()
 
+    
+    def get_setback_notes(cycle_date):
+        cur.execute("SELECT * FROM setbacks WHERE cycle_date = ? ORDER BY day", (cycle_date,))
+        notes = cur.fetchall()
+
+        notes = map(lambda note: 
+            {
+                "day": note[1],
+                "description": note[2],
+            }
+        , notes)
+
+        return list(notes)
+
+
+    def add_setback(cycle_date, day, description):
+        cur.execute("INSERT INTO setbacks(day, description, cycle_date) VALUES(?, ?, ?)", (day, description, cycle_date))
+        con.commit()
+
 
 except Error:
     # En caso de error

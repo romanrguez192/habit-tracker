@@ -79,6 +79,10 @@ messages = {
         "day_mark": "Day to mark",
         "symbol": "Symbol",
         "marked": "Habit successfully marked",
+        "no_setbacks": "There are no setback notes",
+        "add_setback": "Add new setback note?",
+        "write_setback": "Insert the note",
+        "setback_day": "Setback day",
     },
     "ES": {
         "choose": "¿Qué idioma hablas? (ES)",
@@ -105,5 +109,9 @@ messages = {
         "day_mark": "Day a marcar",
         "symbol": "Símbolo",
         "marked": "Hábito marcado exitosamente",
+        "no_setbacks": "No se encontraron notas de retrasos",
+        "add_setback": "¿Agregar una nueva nota?",
+        "write_setback": "Escribe la nota",
+        "setback_day": "Día del retraso",
     }
 }

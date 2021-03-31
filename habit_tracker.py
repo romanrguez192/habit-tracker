@@ -97,7 +97,7 @@ def current_cycle_menu():
     
     print_habits()
         
-    menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, None, None))
+    menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, setback_notes, None))
 
 
 # Menú para marcar el seguimiento de los hábitos
@@ -139,6 +139,33 @@ def mark_habits():
     print(messages["marked"])
     print_habits()
 
+
+def setback_notes():
+    cycle_date = utils.get_cycle_date()
+    notes = db.get_setback_notes(cycle_date)
+    print()
+
+    if len(notes) == 0:
+        print(messages["no_setbacks"])
+
+    for i, note in enumerate(notes):
+        print(f"{note['day']}: {note['description']}")
+    
+    ans = ""
+    while ans != messages["no"]:
+        print()
+        ans = ""
+        while ans not in (messages["yes"], messages["no"]):
+            print(f"{messages['add_setback']} ({messages['yes']}/{messages['no']})")
+            ans = input(">>> ").upper()
+
+        if ans == messages["yes"]:
+            day = input("- " + messages["setback_day"] + ": ")
+            note = input("- " + messages["write_setback"] + ": " )
+            db.add_setback(cycle_date, day, note)
+    
+    print_habits()
+    
 
 # Creación de nuevo ciclo
 def new_cycle():
