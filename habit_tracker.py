@@ -97,7 +97,7 @@ def current_cycle_menu():
     
     print_habits()
         
-    menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, setback_notes, None))
+    menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, setback_notes, reviews))
 
 
 # Menú para marcar el seguimiento de los hábitos
@@ -140,6 +140,7 @@ def mark_habits():
     print_habits()
 
 
+# Menú para agregar las notas de los retrasos y para listarlas
 def setback_notes():
     cycle_date = utils.get_cycle_date()
     notes = db.get_setback_notes(cycle_date)
@@ -148,7 +149,7 @@ def setback_notes():
     if len(notes) == 0:
         print(messages["no_setbacks"])
 
-    for i, note in enumerate(notes):
+    for note in notes:
         print(f"{note['day']}: {note['description']}")
     
     ans = ""
@@ -166,6 +167,33 @@ def setback_notes():
     
     print_habits()
     
+
+# Menú para agregar las revisiones de los ciclos y para listarlas
+def reviews():
+    cycle_date = utils.get_cycle_date()
+    reviews = db.get_reviews(cycle_date)
+    print()
+
+    if len(reviews) == 0:
+        print(messages["no_reviews"])
+
+    for i, review in enumerate(reviews):
+        print(f"{i + 1}. {review}")
+    
+    ans = ""
+    while ans != messages["no"]:
+        print()
+        ans = ""
+        while ans not in (messages["yes"], messages["no"]):
+            print(f"{messages['add_review']} ({messages['yes']}/{messages['no']})")
+            ans = input(">>> ").upper()
+
+        if ans == messages["yes"]:
+            comment = input("- " + messages["write_review"] + ": " )
+            db.add_review(cycle_date, comment)
+    
+    print_habits()
+
 
 # Creación de nuevo ciclo
 def new_cycle():

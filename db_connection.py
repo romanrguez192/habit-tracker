@@ -81,13 +81,13 @@ try:
 
     
     def get_setback_notes(cycle_date):
-        cur.execute("SELECT * FROM setbacks WHERE cycle_date = ? ORDER BY day", (cycle_date,))
+        cur.execute("SELECT day, description FROM setbacks WHERE cycle_date = ? ORDER BY day", (cycle_date,))
         notes = cur.fetchall()
 
         notes = map(lambda note: 
             {
-                "day": note[1],
-                "description": note[2],
+                "day": note[0],
+                "description": note[1],
             }
         , notes)
 
@@ -96,6 +96,19 @@ try:
 
     def add_setback(cycle_date, day, description):
         cur.execute("INSERT INTO setbacks(day, description, cycle_date) VALUES(?, ?, ?)", (day, description, cycle_date))
+        con.commit()
+
+
+    def get_reviews(cycle_date):
+        cur.execute("SELECT description FROM reviews WHERE cycle_date = ?", (cycle_date,))
+        reviews = cur.fetchall()
+
+        reviews = map(lambda review: review[0], reviews)
+        return list(reviews)
+
+
+    def add_review(cycle_date, description):
+        cur.execute("INSERT INTO reviews(description, cycle_date) VALUES(?, ?)", (description, cycle_date))
         con.commit()
 
 

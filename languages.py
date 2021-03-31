@@ -83,6 +83,9 @@ messages = {
         "add_setback": "Add new setback note?",
         "write_setback": "Insert the note",
         "setback_day": "Setback day",
+        "no_reviews": "There are no reviews for this cycle",
+        "add_review": "Add new review?",
+        "write_review": "Insert the review",
     },
     "ES": {
         "choose": "¿Qué idioma hablas? (ES)",
@@ -113,5 +116,8 @@ messages = {
         "add_setback": "¿Agregar una nueva nota?",
         "write_setback": "Escribe la nota",
         "setback_day": "Día del retraso",
+        "no_reviews": "No se encontraron revisiones para este ciclo",
+        "add_review": "¿Agregar nuevo comentario?",
+        "write_review": "Escribe el comentario",
     }
 }
