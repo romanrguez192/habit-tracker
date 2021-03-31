@@ -3,6 +3,7 @@ from sqlite3 import Error
 import utils
 import sys
 from languages import dates
+from datetime import datetime
 
 try:
     # Intenta hacer la conexión
@@ -119,6 +120,19 @@ try:
     def add_review(cycle_date, description):
         cur.execute("INSERT INTO reviews(description, cycle_date) VALUES(?, ?)", (description, cycle_date))
         con.commit()
+
+
+    # Obtener los ciclos anteriores
+    def get_past_cycles():
+        current_cycle = utils.get_cycle_date()
+
+        cur.execute("SELECT DISTINCT cycle_date from habits WHERE cycle_date != ? ORDER BY cycle_date", (current_cycle,))
+        cycles = cur.fetchall()
+
+        cycles = map(lambda cycle: datetime.strptime(cycle[0], "%Y-%m-%d").date(), cycles)
+
+        return list(cycles)
+
 
 
 except Error:

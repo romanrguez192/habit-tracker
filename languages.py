@@ -86,6 +86,7 @@ messages = {
         "no_reviews": "There are no reviews for this cycle",
         "add_review": "Add new review?",
         "write_review": "Insert the review",
+        "no_past_cycles": "There are no past cycles",
     },
     "ES": {
         "choose": "¿Qué idioma hablas? (ES)",
@@ -119,5 +120,6 @@ messages = {
         "no_reviews": "No se encontraron revisiones para este ciclo",
         "add_review": "¿Agregar nuevo comentario?",
         "write_review": "Escribe el comentario",
+        "no_past_cycles": "No se encontraron ciclos anteriores",
     }
 }

@@ -231,17 +231,15 @@ def new_cycle():
 
 # Menú de ciclos anteriores
 def past_cycles_menu(): 
-    option = ""
-    while option != "2":
-        option = ""
-        while option not in map(str, range(1, 2 + 1)):
-            print()
-            print("1.", messages["new_cycle"])
-            print("2.", messages["back"])
-            option = input(">>> ")
-            
-        if  option == "1":
-            print("XD")
+    cycles = db.get_past_cycles()
+    print()
+
+    if len(cycles) == 0:
+        print(messages["no_past_cycles"])
+
+    for i, cycle in enumerate(cycles):
+        d, m, y = cycle.day, cycle.month, cycle.year
+        print(f"{i + 1}. {messages['heading_date'](d, m, y)}")
 
 
 # Selección de idioma
