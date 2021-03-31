@@ -134,12 +134,6 @@ try:
         return list(cycles)
 
 
-    # Obtener toda la información de un ciclo en particular
-    def get_cycle_info(cycle):
-
-        
-
-
 except Error:
     # En caso de error
     print(Error)

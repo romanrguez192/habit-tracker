@@ -54,8 +54,7 @@ def main_menu():
 
 
 # Encabezado con todos los hábitos y su seguimiento
-def print_habits():
-    cycle_date = utils.get_cycle_date()
+def print_habits(cycle_date):
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
 
     print()
@@ -95,7 +94,8 @@ def current_cycle_menu():
     while not db.current_cycle_exists():
         new_cycle()
     
-    print_habits()
+    cycle_date = utils.get_cycle_date()
+    print_habits(cycle_date)
         
     menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, setback_notes, reviews))
 
@@ -137,7 +137,7 @@ def mark_habits():
     db.mark_habit(habit_id, day, symbol)
     print()
     print(messages["marked"])
-    print_habits()
+    print_habits(cycle_date)
 
 
 # Menú para agregar las notas de los retrasos y para listarlas
@@ -165,7 +165,7 @@ def setback_notes():
             note = input("- " + messages["write_setback"] + ": " )
             db.add_setback(cycle_date, day, note)
     
-    print_habits()
+    print_habits(cycle_date)
     
 
 # Menú para agregar las revisiones de los ciclos y para listarlas
@@ -192,7 +192,7 @@ def reviews():
             comment = input("- " + messages["write_review"] + ": " )
             db.add_review(cycle_date, comment)
     
-    print_habits()
+    print_habits(cycle_date)
 
 
 # Creación de nuevo ciclo
@@ -238,21 +238,47 @@ def past_cycles_menu():
         print(messages["no_past_cycles"])
         return
 
-    for i, cycle in enumerate(cycles):
-        d, m, y = cycle.day, cycle.month, cycle.year
-        print(f"{i + 1}. {messages['heading_date'](d, m, y)}")
-    print(f"{len(cycles) + 1}. {messages['back']}")
-    print()
+    while True:
+        for i, cycle in enumerate(cycles):
+            d, m, y = cycle.day, cycle.month, cycle.year
+            print(f"{i + 1}. {messages['heading_date'](d, m, y)}")
+        print(f"{len(cycles) + 1}. {messages['back']}")
 
-    number = ""
-    while number not in map(str, range(1, len(cycles) + 2)) :
-        number = input(">>> ")
-    number = int(number)
+        number = ""
+        while number not in map(str, range(1, len(cycles) + 2)) :
+            number = input(">>> ")
+        number = int(number)
 
-    if number == len(cycles) + 1:
-        return
-    
-    db.get_cycle_info(cycles[number - 1])
+        if number == len(cycles) + 1:
+            return
+           
+        cycle_date = cycles[number - 1]
+
+        print_habits(cycle_date)
+        print()
+
+        print(messages["setback_notes"])
+        print()
+        notes = db.get_setback_notes(cycle_date)
+
+        if len(notes) == 0:
+            print(messages["no_setbacks"])
+
+        for note in notes:
+            print(f"{note['day']}: {note['description']}")
+
+        print()
+
+        print(messages["cycle_review"])
+        print()
+        reviews = db.get_reviews(cycle_date)
+
+        if len(reviews) == 0:
+            print(messages["no_reviews"])
+
+        for i, review in enumerate(reviews):
+            print(f"{i + 1}. {review}")
+        print()
 
 
 # Selección de idioma
