@@ -53,11 +53,8 @@ def main_menu():
     menu(("current_cycle", "past_cycles", "exit"), (current_cycle_menu, past_cycles_menu))
 
 
-# Menú de opciones del ciclo actual
-def current_cycle_menu():
-    while not db.current_cycle_exists():
-        new_cycle()
-    
+# Encabezado con todos los hábitos y su seguimiento
+def print_habits():
     cycle_date = utils.get_cycle_date()
     d, m, y = cycle_date.day, cycle_date.month, cycle_date.year
 
@@ -91,6 +88,14 @@ def current_cycle_menu():
             else:
                 print("   ", end="")
         print()
+
+
+# Menú de opciones del ciclo actual
+def current_cycle_menu():
+    while not db.current_cycle_exists():
+        new_cycle()
+    
+    print_habits()
         
     menu(("mark_habits", "setback_notes", "cycle_review", "back"), (mark_habits, None, None))
 
@@ -129,10 +134,10 @@ def mark_habits():
 
     habit_id = habits[number - 1]["id"]
 
-    # db.mark_habit(habit_id, day, symbol)
+    db.mark_habit(habit_id, day, symbol)
     print()
     print(messages["marked"])
-
+    print_habits()
 
 
 # Creación de nuevo ciclo

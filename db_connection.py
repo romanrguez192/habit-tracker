@@ -60,7 +60,7 @@ try:
         for i in range(1, len(habits_list)):
             if habits_list[i][0] != habits_list[i - 1][0]:
                 habit = {}
-                habit["id"] = habits_list[0][0]
+                habit["id"] = habits_list[i][0]
                 habit["name"] = habits_list[i][1]
                 habit["action"] = habits_list[i][2]
                 habit["measurement"] = habits_list[i][3]
@@ -73,6 +73,11 @@ try:
                 habit["tracking"][habits_list[i][5]] = habits_list[i][6]
 
         return habits
+
+
+    def mark_habit(habit_id, day, status):
+        cur.execute("INSERT INTO tracking(habit_id, day, status) VALUES(?, ?, ?)", (habit_id, day, status))
+        con.commit()
 
 
 except Error:
