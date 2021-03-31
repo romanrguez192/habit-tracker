@@ -16,10 +16,13 @@ try:
 
     con.commit()
 
+
+    # Cerrar la conexión de forma segura
     def close_connection():
         con.close()
         
 
+    # Verifica si existe un ciclo actualmente
     def current_cycle_exists():
         cycle_date = utils.get_cycle_date()
         cur.execute("SELECT * FROM habits WHERE cycle_date = ?", (cycle_date,))
@@ -28,12 +31,13 @@ try:
         return cycle != None
 
     
+    # Agrega un nuevo hábito a un ciclo
     def add_new_habit(habits):
         cur.executemany("INSERT INTO habits(name, action, measurement, days, cycle_date) VALUES(?, ?, ?, ?, ?)", habits)
         con.commit()
 
+    # Obtiene todos los hábitos de un ciclo determinado
     def get_habits(cycle_date, lang):
-
         habits = []
         cur.execute("""
             SELECT h.habit_id, h.name, h.action, h.measurement, h.days, t.day, t.status
@@ -75,11 +79,13 @@ try:
         return habits
 
 
+    # Permite marcar el seguimiento de un hábito
     def mark_habit(habit_id, day, status):
         cur.execute("INSERT INTO tracking(habit_id, day, status) VALUES(?, ?, ?)", (habit_id, day, status))
         con.commit()
 
     
+    # Obtiene todas las notas de retraso de un ciclo
     def get_setback_notes(cycle_date):
         cur.execute("SELECT day, description FROM setbacks WHERE cycle_date = ? ORDER BY day", (cycle_date,))
         notes = cur.fetchall()
@@ -94,11 +100,13 @@ try:
         return list(notes)
 
 
+    # Añade una nueva nota de retraso
     def add_setback(cycle_date, day, description):
         cur.execute("INSERT INTO setbacks(day, description, cycle_date) VALUES(?, ?, ?)", (day, description, cycle_date))
         con.commit()
 
 
+    # Obtiene todas las revisiones de un ciclo
     def get_reviews(cycle_date):
         cur.execute("SELECT description FROM reviews WHERE cycle_date = ?", (cycle_date,))
         reviews = cur.fetchall()
@@ -107,6 +115,7 @@ try:
         return list(reviews)
 
 
+    # Agrega un nuevo comentario de revisión de ciclo
     def add_review(cycle_date, description):
         cur.execute("INSERT INTO reviews(description, cycle_date) VALUES(?, ?)", (description, cycle_date))
         con.commit()
