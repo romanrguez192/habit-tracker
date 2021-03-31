@@ -236,10 +236,23 @@ def past_cycles_menu():
 
     if len(cycles) == 0:
         print(messages["no_past_cycles"])
+        return
 
     for i, cycle in enumerate(cycles):
         d, m, y = cycle.day, cycle.month, cycle.year
         print(f"{i + 1}. {messages['heading_date'](d, m, y)}")
+    print(f"{len(cycles) + 1}. {messages['back']}")
+    print()
+
+    number = ""
+    while number not in map(str, range(1, len(cycles) + 2)) :
+        number = input(">>> ")
+    number = int(number)
+
+    if number == len(cycles) + 1:
+        return
+    
+    db.get_cycle_info(cycles[number - 1])
 
 
 # Selección de idioma
